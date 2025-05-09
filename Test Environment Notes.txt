@@ -1,0 +1,122 @@
+Test Environment:
+
+- Create variables file
+- Create and organize shared method files
+- Implement saving screenshot upon failure
+- Connect with GitHub
+	- Email notifications on finish/pass/fail?
+	- GitHub Actions to auto-run (select by file or tag?)
+	- Upload test reports to Qase? Track logs.
+	- Add run by tag functionality
+- Copy Qase structure and titles exactly
+- Add -----TAGS---- to all tests
+	[TAG INDIVIDUAL TEST VARIATIONS]
+	test('can log in: hs-student', async ({ page }) -> {
+		npx playwright test -g "hs-counselor"
+
+	test.info().annotations.push({ type: 'tag', description: '@login' });
+		npx playwright test --grep @login
+
+	test('User can login @smoke @login', async ({ page }) => { ... });
+		npx playwright test --grep @login
+		(these tags will show up in the console when test fails)
+
+
+
+	[TAGS LIST]
+	subscription type (HS, IC, L&P, LPS, BRS, public)
+		hs-counselor
+		hs-counselor-admin
+		hs-student
+		ic
+		ic-counselor
+		ic-student
+	user type (admin, counselor, student)
+	rank/rigor/honors
+	gpa
+	ultra selective threshold
+	adjust matrix
+	min admitted
+	login
+	logout
+	navigation bar + all selections
+	expired (expired accounts?)
+	links
+	permission
+	authentication/authorization
+	
+- Create Confluence or in-repo documentation for tags?
+- Naming conventions? dash or underscore for files/tags
+- Should we add codegen for faster coding?
+
+
+tests
+	.github/
+		workflows/
+			playwright.yml
+	helpers/
+		selectors.ts	(VARIABLES)
+		helpers.ts	(HELPERS)
+	tests/			(TESTS)
+		[no core app]
+		public-profile
+		permissions
+			x.spec.ts
+		login&logout
+		
+	package.json
+	playwright.config.ts
+
+----------------------------------------------------------------------------Steps:
+
+mkdir college-kickstart-tests		// create folder
+cd college-kickstart-tests		// go in folder
+npm init -y				// init node.js project, create package.json
+npm i -D playwright typescript ts-node @playwright/test		// init pw+ts. 
+					// node_modules folder
+npx playwright install			// browser dependencies
+
+git init
+
+			// create gitignore and add node.js file to it
+
+gh repo create college-kickstart-tests --public --source=. --remote=origin --push
+					// install GitHub cli if needed
+gh auth login				// if you need to login in terminal
+git add .
+git commit -m "Initial commit"
+
+npx playwright install
+npx playwright test --init
+
+
+npx playwright codegen https://collegekickstart.com 		// add codegen 
+
+install github action
+
+============================================================================
+
+BEST PRACTICES:
+
+- use test.descibe() to group related tests
+- keep tests isolated - don't depend on order/shared state
+- use beforeEach to set up a test (like visiting homepage)
+- avoid hardcoded delays (waitForTimeout), use (await expect().toBeVisible())
+- follow test naming convention
+	1) Name_StateUnderTest_ExpecedBehavior
+	2) Verify "Blog" link navigates to Blog page
+- use tags
+- reuse selectors/methods
+- limit each test to 1 main assertion
+- (my suggestion) save a screenshot of failure when test fails 
+
+
+
+
+
+
+
+
+
+
+
